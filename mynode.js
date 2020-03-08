@@ -24,7 +24,6 @@ fs.writeFile("myNodeFile.txt","test string","utf8",function(err){
 */
 
 //Using readLine from Node.JS library
-const readLine = require("readLine");
 
 //create an interface to capture whatever the user is typing in the command line
 const readline = require('readline');
