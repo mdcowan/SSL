@@ -12,11 +12,14 @@ http.createServer(function(request,response){
     var parsed = url.parse(request.url)
     //now we can use parse from the path library for the parsed result
     var filename = path.parse(parsed.pathname)
+
+    //save the file parts for use from the parse
     var filen = filename.name==""?"index":filename.name
     var ext = filename.ext==""?".html":filename.ext
     var dir = filename.dir=="/"?"":filename.dir+"/"
     var page = filename.name==""?"index":filename.name
 
+    //create the path with file name and ext
     f=(dir+filen+ext).replace("/","")
 
     var mimeTypes = {
@@ -37,7 +40,7 @@ http.createServer(function(request,response){
                     //this is how to pass data to the HTML page.
                     //a variable is created with data in it.
                     //the variable is then called in the HTML page JavaScript
-                    response.write("<script>var page = '"+page+"'</script>")
+                    response.write("<script>var page = '"+filen+"'</script>")
                     response.end(data, 'utf-8')
                 }
             }
