@@ -19,8 +19,16 @@
 </head>
 
 <body>
-
+  <!-- Display navigation part-->
   <%- include('partial/nav') %>
+
+  <!-- Handle any errors from login attempts-->
+  <% if(typeof(errors)!="undefined"){ %>
+    <% for(x in errors){ %>
+      <br><span><%errors[x]%></span>
+      <%console.log(errors[x])%>
+    <% } %>
+  <% } %>
 
   <header>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -225,8 +233,8 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/vendor/jquery/jquery.min.js"></script>
+  <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
