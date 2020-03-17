@@ -22,28 +22,55 @@ var url = require("url") //https://nodejs.org/api/url.html
 // import JS libraries
 var express = require("express") 
 var request = require("request")
-var bodyParser = require("body-parser") 
+
 
 
 let ejs = require("ejs")
 const router = express.Router()
+
 var app = express()
 app.set("view engine","ejs")
 app.engine("ejs",require("ejs").__express)
+
+var bodyParser = require("body-parser") 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.use(express.static(path.join(__dirname, '/public')));
-app.use("/",router)
 
+const session = require("express-session")
+app.use(session({secret:"secret", saveUninitialized:true,resave:true}))
+var sess
+
+//default route
 router.get("/", function(req,res){
+    sess = req.session
+
     //note that we are no longer using file write.
     //here we are pasing data to the file - variable pagename = Home
-    res.render("index", {pagename:"home"}) //views/index.ejs
+    res.render("index", {pagename:"home",sess:sess}) //views/index.ejs
 })
 router.get("/about", function(req,res){
+    sess = req.session
     //note that we are no longer using file write.
     //here we are pasing data to the file - variable pagename = About
-    res.render("about", {pagename:"about"}) //views/about.ejs
+    res.render("about", {pagename:"about",sess:sess}) //views/about.ejs
+})
+
+router.get("/profile", function(req,res){
+    sess = req.session
+    //check that it's defined
+    if(typeof(sess)=="undefined" || sess.loggedin !=true){
+        var errors = ["Not an authenticated user"]
+        res.render("index", {pagename:"home",errors:errors})
+    }else{
+        res.render("profile", {pagename:"profile",sess:sess})
+    }
+})
+
+router.get("/logout", function(req,res){
+    sess = req.session
+    sess.destroy(function(err){
+        res.redirect("/")
+    })
 })
 
 //Because this route is "post", its only purpose is to pass data
@@ -60,17 +87,34 @@ router.post("/login", function(req,res){
     if(req.body.password == ""){
         errors.push("Password is required")
     }
-    if(!/^[a-zA-Z]\w{3,14}$/.test(req.body.email)){
+    let reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!reEmail.test(req.body.email)){
         errors.push("Email is not valid")
     }
-    if(!/^[a-zA-Z]\w{3,14}$/.test(req.body.password)){
+    let rePass = /^[a-zA-Z]\w{3,14}$/
+    if(!rePass.test(req.body.password)){
         errors.push("Password is not valid")
     }
 
-    res.render("index", {pagename:"home", errors:errors})
+    //write conditional here if matching UN and PW 
+    //good show profile...bad show index with errors
+    /*if(){
+    var errors = ["Not an authenticated user"]
+        res.render("index", {pagename:"home",errors:errors})
+    }else{
+        res.render("profile", {pagename:"profile",sess:sess})
+    }
+    */
+    sess = req.session
+    sess.loggedin = true
+
+
+    //console.log(errors)
+    res.render("profile", {pagename:"profile",sess:sess})
 })
 
-
+app.use(express.static('public'))
+app.use("/",router)
 var server = app.listen("8080")
 
 
