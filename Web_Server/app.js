@@ -16,6 +16,8 @@ var url = require("url") //https://nodejs.org/api/url.html
 // https://github.com/request/request
 // sudo npm install -g body-parser
 // https://www.npmjs.com/package/body-parser
+// npm install --save path
+
 
 // import JS libraries
 var express = require("express") 
@@ -30,7 +32,7 @@ app.set("view engine","ejs")
 app.engine("ejs",require("ejs").__express)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.use(express.static("public"))
+app.use(express.static(path.join(__dirname, 'public')));
 app.use("/",router)
 
 router.get("/", function(req,res){
