@@ -43,7 +43,7 @@ var sess
 //default route
 router.get("/", function(req,res){
     sess = req.session
-
+    //console.log(sess)
     //note that we are no longer using file write.
     //here we are pasing data to the file - variable pagename = Home
     res.render("index", {pagename:"home",sess:sess}) //views/index.ejs
@@ -97,6 +97,7 @@ router.post("/login", function(req,res){
     }
 
     //write conditional here if matching UN and PW 
+    //email mike@aol.com pass abc123
     //good show profile...bad show index with errors
     /*if(){
     var errors = ["Not an authenticated user"]
@@ -105,12 +106,12 @@ router.post("/login", function(req,res){
         res.render("profile", {pagename:"profile",sess:sess})
     }
     */
-    sess = req.session
-    sess.loggedin = true
 
-
+   sess = req.session
+   sess.loggedin = true
+   session.email = req.body.email
     //console.log(errors)
-    res.render("profile", {pagename:"profile",sess:sess})
+    res.render("profile", {pagename:"home",errors:errors,sess:sess})
 })
 
 app.use(express.static('public'))

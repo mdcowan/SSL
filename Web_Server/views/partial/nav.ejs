@@ -1,4 +1,4 @@
-<!-- Navigation -->
+<!--Navigation-->>
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/">Start Bootstrap</a>
@@ -7,7 +7,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <!-- use conditional to set the correct styling based on the page that is passed --> 
+        <!--use conditional to set the correct styling based on the page that is passed-->
         <li class="nav-item">
           <% if (pagename=='home') { %>
             <a class = "nav-link" style = "color:blueviolet" href = "/">Home</a>
@@ -22,12 +22,10 @@
               <a class = "nav-link" href = "/about">About</a>
             <% } %>
         </li>  
-        <li>
-          <%if(typeof(sess)!="undefined" && sess.loggedin==true){%>
-            <a class="nav-link" style = "color:blueviolet" href="/profile">Profile</a>
-            <a class="nav-link" style = "color:blueviolet" href="/logout">Logout</a>
-          <& } >
-        </li>
+          <% if(typeof(sess)!="undefined" && sess.loggedin==true){ %>
+            <li><a class="nav-link" style = "color:blueviolet" href="/profile">Profile</a></li>
+            <li><a class="nav-link" style = "color:blueviolet" href="/logout">Logout</a></li>
+          <% } %>
       </ul>
     </div>
   </div>
