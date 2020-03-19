@@ -1,4 +1,4 @@
-<!--Navigation-->>
+<!--Navigation-->
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/">Start Bootstrap</a>
@@ -22,10 +22,10 @@
               <a class = "nav-link" href = "/about">About</a>
             <% } %>
         </li>  
-          <% if(typeof(sess)!="undefined" && sess.loggedin==true){ %>
-            <li><a class="nav-link" style = "color:blueviolet" href="/profile">Profile</a></li>
-            <li><a class="nav-link" style = "color:blueviolet" href="/logout">Logout</a></li>
-          <% } %>
+        <% if(typeof(sess)!="undefined" && sess.loggedin==true){ %>
+          <li><a class="nav-link" style = "color:blueviolet" href="/profile">Profile</a></li>
+          <li><a class="nav-link" style = "color:blueviolet" href="/logout">Logout</a></li>
+        <% } %>
       </ul>
     </div>
   </div>
@@ -52,10 +52,17 @@
     </form>
 </div>
 
+<%- include('../partial/register') %>
+
 <!-- Handle any errors from login attempts-->
 <% if(typeof(errors)!="undefined"){ %>
   <% for(x in errors){ %>
     <br><span>ERRORS: <%= errors[x] %></span>
+  <% } %>
+<% }else{ %>
+  <% if(typeof(success)!="undefined"){ %>
+    <% console.log(success) %>
+    <br><span>Message: <%= success %></span>
   <% } %>
 <% } %>
 

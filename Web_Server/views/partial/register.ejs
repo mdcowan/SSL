@@ -1,0 +1,74 @@
+<div style="z-index: 12;
+  display: block;
+  text-align: left;
+  background-color: #333a40;
+  margin-right: 0px;
+  padding-right: 20px;
+  color: white;
+  position: absolute;
+  width: 155px;
+  margin-top: 4px;
+  padding-top: 5px;
+  right: 175px;
+  border-radius: 10px;
+  padding: 11px;
+  font-size: 12px;">
+    <form action="/register" method="POST">
+        <fieldset>
+            <input type="text" name="firstname" placeholder="First">
+            <input type="text" name="lastname" placeholder="Last">
+        </fieldset>
+        <fieldset>
+            <input type="text" name="address" placeholder="Street Address">
+            <input type="text" name="city" placeholder="City">
+            <input type="text" name="state" placeholder="State">
+            <input type="number" name="zip" placeholder="Zip">
+        </fieldset>
+        <input list="age" name="age" placeholder="Age">
+        <datalist id="age">
+            <option value="20">
+            <option value="21">
+            <option value="22">
+            <option value="23">
+            <option value="24">
+            <option value="25">
+            <option value="26">
+            <option value="27">
+            <option value="28">
+            <option value="29">
+            <option value="30">
+            <option value="31">
+            <option value="32">
+            <option value="33">
+            <option value="34">
+            <option value="35">
+            <option value="36">
+            <option value="37">
+            <option value="38">
+            <option value="39">
+            <option value="40">
+            <option value="41">
+            <option value="42">
+            <option value="43">
+            <option value="44">
+            <option value="45">
+            <option value="46">
+            <option value="47">
+            <option value="48">
+            <option value="49">
+        </datalist>
+        <p>Gender: </p>
+        <fieldset>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label><br>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label><br>
+            <input type="radio" id="other" name="gender" value="other">
+            <label for="other">Other</label>
+        </fieldset>
+        <label for="consent">I give my consent.</label>
+        <input type="checkbox" name="consent" value = "true">
+        <textarea name="bio" rows="10" cols="18" placeholder="Please describe yourself here"></textarea>
+        <input type="submit">
+    </form>
+</div>

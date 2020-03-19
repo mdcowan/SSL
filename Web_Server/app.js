@@ -114,6 +114,62 @@ router.post("/login", function(req,res){
     res.render("profile", {pagename:"home",errors:errors,sess:sess})
 })
 
+router.post("/register", function(req,res){
+    var errors = []
+    if(req.body.firstname == ""){
+        errors.push("First name is required")
+    }
+    if(req.body.lastname == ""){
+        errors.push("Last name is required")
+    }
+    if(req.body.address == ""){
+        errors.push("Street Address is required")
+    }
+    if(req.body.city == ""){
+        errors.push("City is required")
+    }
+
+    let reState = /^((A[LKSZR])|(C[AOT])|(D[EC])|(F[ML])|(G[AU])|(HI)|(I[DLNA])|(K[SY])|(LA)|(M[EHDAINSOT])|(N[EVHJMYCD])|(MP)|(O[HKR])|(P[WAR])|(RI)|(S[CD])|(T[NX])|(UT)|(V[TIA])|(W[AVIY]))$/
+    if(req.body.state == ""){
+        errors.push("State is required")
+    }else if(!reState.test(req.body.state)){
+        errors.push("State must be in abbreviation format")
+    }
+
+    let reZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/
+    if(req.body.zip == ""){
+        errors.push("Zip code is required")        
+    }else if(!reZip.test(req.body.zip)){
+        errors.push("Zip code is not valid")
+    }  
+
+    if(req.body.age == ""){
+        errors.push("Age is required")
+    }
+    if(req.body.gender == ""){
+        errors.push("Gender is required")
+    }
+    if(req.body.consent == ""){
+        errors.push("Consent is required")
+    }
+    if(req.body.bio == ""){
+        errors.push("Bio is required")
+    }
+
+
+
+  
+
+    if (errors.length == 0){
+        let success = "Registration Successful"
+        //console.log(errors,success)
+        res.render("index", {pagename:"home",success:success})
+    }else{
+        res.render("index", {pagename:"home",errors:errors})
+    }
+
+})
+
 app.use(express.static('public'))
 app.use("/",router)
 var server = app.listen("8080")
