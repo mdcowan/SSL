@@ -81,37 +81,40 @@ router.post("/login", function(req,res){
     //console.log(req.body.password)
 
     var errors = []
+    let reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let rePass = /^[a-zA-Z]\w{3,14}$/
+
     if(req.body.email == ""){
         errors.push("Email is required")
+    }else if (!reEmail.test(req.body.email)){
+        errors.push("Email is not valid")
     }
     if(req.body.password == ""){
         errors.push("Password is required")
-    }
-    let reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(!reEmail.test(req.body.email)){
-        errors.push("Email is not valid")
-    }
-    let rePass = /^[a-zA-Z]\w{3,14}$/
-    if(!rePass.test(req.body.password)){
+    }else if(!rePass.test(req.body.password)){
         errors.push("Password is not valid")
     }
+
+    sess = req.session
 
     //write conditional here if matching UN and PW 
     //email mike@aol.com pass abc123
     //good show profile...bad show index with errors
-    /*if(){
-    var errors = ["Not an authenticated user"]
-        res.render("index", {pagename:"home",errors:errors})
+    if (errors.length === 0){
+        if((req.body.email != "mike@aol.com" || req.body.password != "abc123")){
+            errors=["Not an authenticated user"]
+            sess.loggedin = false
+            res.render("index", {pagename:"home",errors:errors})
+        }else{
+            sess.loggedin = true
+            res.render("profile", {pagename:"profile",sess:sess})
+        }
     }else{
-        res.render("profile", {pagename:"profile",sess:sess})
+        sess.loggedin = false
+        res.render("index", {pagename:"home",errors:errors})
     }
-    */
-
-   sess = req.session
-   sess.loggedin = true
-   session.email = req.body.email
-    //console.log(errors)
-    res.render("profile", {pagename:"home",errors:errors,sess:sess})
+   
+   //session.email = req.body.email
 })
 
 router.post("/register", function(req,res){
